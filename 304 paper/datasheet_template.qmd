@@ -1,0 +1,89 @@
+---
+title: "Datasheet for 'Death leading causes'"
+author: 
+  - Xinrui Xie
+thanks: "Code and data are available at: https://github.com/XinruiXie45/Pattern_of_Total_Number_of_Deaths_alberta"
+date: today
+date-format: "D MMMM YYYY"
+abstract: "This datasheet provides a detailed description of a historical dataset compiled to study the strategic bombing campaigns during World War II, focusing specifically on Allied missions targeting Germany. The dataset encompasses over 60,000 records refined from a larger repository of military operations, meticulously curated to highlight missions with direct implications on strategic outcomes. It includes variables like target industry, country flying the mission, bomb tonnage, and aircraft count, each chosen for their relevance to understanding target prioritization."
+format: pdf
+number-sections: true
+bibliography: references.bib
+---
+
+Motivation
+
+Purpose
+
+The dataset was created to analyze patterns in leading causes of death across various years to identify trends and prioritize healthcare strategies. It aims to fill gaps in understanding mortality factors and inform public health policies.
+
+Creator
+
+The dataset was likely assembled by health researchers or government health departments to consolidate vital statistics data for public analysis.
+
+Funding
+
+The creation was likely funded by public health institutions or government grants dedicated to mortality and health analytics.
+
+Other Comments
+
+The dataset represents a significant effort to provide a comprehensive view of mortality causes, supporting public health education and planning.
+
+Composition
+
+Instances Representation
+
+Each instance represents a cause of death in a specific year, including data such as ranking, total deaths, and specific medical conditions.
+
+Number of Instances
+
+The dataset contains several entries corresponding to various causes of death over different years.
+
+Completeness
+
+The dataset appears comprehensive for its purpose but may be a filtered selection from larger mortality datasets.
+
+Instance Details
+
+Each instance contains structured data on year, cause of death, ranking, and total deaths, derived from health records.
+
+Labels or Targets
+
+Causes of death are effectively labeled with their medical description, ranking, and numerical data indicating their impact.
+
+Missing Information
+
+Some causes may lack detailed statistical information due to unavailable or incomplete records from the source year.
+
+Relationships Between Instances
+
+Instances for the same year or cause are implicitly linked, showing trends over time or between medical conditions.
+
+Recommended Data Splits
+
+A split of 80% for trend analysis (training) and 20% for validation/testing could be used.
+
+Errors or Noise
+
+The dataset may include inconsistencies due to reporting variations, misclassification, or missing data.
+
+Self-contained or External Resources
+
+The dataset is primarily self-contained but may rely on health department archives or global health databases.
+Confidential Data
+The dataset does not contain confidential information as it deals with aggregate public health data.
+Sensitive Data
+While factual, mortality data can evoke emotional responses due to its nature.
+Sub-populations
+The dataset does not explicitly identify sub-populations (e.g., by demographics).
+Identification of Individuals
+The dataset does not identify individuals and uses aggregate public data.
+Sensitive Information
+No sensitive personal information is included; it focuses strictly on health and mortality statistics.
+Other Comments
+This dataset is valuable for health researchers and policymakers to understand mortality trends and address public health challenges.
+
+
+\newpage
+
+# References
