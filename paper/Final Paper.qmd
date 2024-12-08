@@ -3,9 +3,10 @@ title: "Pattern of Total Number of Deaths Caused by 30 Most Common Causes Change
 subtitle: "An Analysis of Declining Cardiovascular Deaths and Rising Mental Health-Related Mortality Trends in Alberta, 2001-2022"
 author: 
   - Xinrui Xie
-date: December 1st, 2024
+date: 20 November, 2024
 date-format: long
-abstract: "This paper analyzes the changes in mortality patterns associated with the 30 most common causes of death in Alberta from 2001 to 2022, using data from Open Data Alberta. A Bayesian regression model is fit to historical data from 2001 to 2002. The analysis reveals notable trends, including declining deaths from cardiovascular diseases and rising mortality associated with mental health-related conditions and chronic illnesses. These findings highlight shifting public health challenges and successes over the past two decades. By identifying these trends, the study provides critical insights to guide targeted health interventions and resource allocation, ultimately contributing to improved public health outcomes and planning. "
+abstract: "This paper analyzes the changes in mortality patterns associated with the 30 most common causes of death in Alberta from 2001 to 2022, using data from Open Data Alberta. A Bayesian regression model is fit to historical data from 2001 to 2002. The analysis 
+notable trends, including declining deaths from cardiovascular diseases and rising mortality associated with mental health-related conditions and chronic illnesses. These findings highlight shifting public health challenges and successes over the past two decades. By identifying these trends, the study provides important perceptions to guide targeted health interventions and resource allocation, ultimately contributing to improved public health outcomes and planning. "
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -28,26 +29,25 @@ data <- read_parquet(here("data/analysis_data/cleaned_deaths_causes.parquet"))
 
 # Introduction {#sec-intro}
 
-Understanding patterns in mortality is essential for guiding public health interventions and allocating resources effectively[@who2021]. This paper focuses on the temporal trends in the leading causes of death in Alberta from 2001 to 2022, based on data provided by Open Data Alberta[@cdc2021]. The dataset ranks the 30 most common causes of death each year by their total counts, enabling a detailed analysis of how the primary contributors to mortality have evolved over two decades[@alberta2022]. Investigating these patterns is critical for identifying persistent health challenges, emerging threats, and areas where progress has been achieved.
+Understanding patterns in mortality is essential for guiding public health interventions and effectively allocating resources [@who2021]. Mortality trends reflect the evolving public health landscape, influenced by advancements in medical science, socio-economic factors, and population behaviors. Alberta, a province with a growing and diverse population, provides a significant case study for examining these trends over time. This paper investigates the temporal shifts in the leading causes of death in Alberta from 2001 to 2022, utilizing data sourced from Open Data Alberta [@cdc2021]. The dataset ranks the 30 most common causes of death annually by their total counts, enabling a detailed analysis of how the primary contributors to mortality have evolved over two decades [@alberta2022]. By exploring these patterns, this study identifies persistent health challenges, emerging threats, and areas of significant progress.
 
-The primary focus of this research is to evaluate the total number of deaths associated with the 30 most common causes in Alberta and to examine how their ranks and overall counts have changed over time. By employing a temporal and categorical analysis, this study aims to quantify shifts in mortality patterns, providing a deeper understanding of whether certain causes of death are becoming more or less significant. This analysis uses yearly rankings and total deaths as estimands to illuminate changes in public health outcomes and disease burden.
+At its core, this research aims to evaluate the total number of deaths attributed to the 30 most common causes in Alberta and to analyze how their ranks and overall counts have shifted over time. By employing both temporal and categorical analyses, this study provides a quantitative assessment of shifts in mortality patterns, revealing whether specific causes of death are becoming more or less significant. This approach uses yearly rankings and total deaths as estimands to illuminate changes in public health outcomes and disease burden. Through this analysis, the research aims to bridge gaps in understanding how public health challenges evolve in a promptly changing demographic and healthcare environment.
 
-The analysis reveals distinct temporal patterns in mortality rates and rankings. Certain causes, such as cardiovascular diseases, demonstrate declining trends, likely reflecting advancements in medical treatment and prevention. Conversely, other causes, such as mental health-related deaths or chronic conditions, show upward trends, indicating areas of growing concern. The findings highlight the dynamic nature of public health challenges, showcasing both successes and emerging threats in Alberta over the study period.
+The analysis uncovers distinct temporal patterns in mortality rates and rankings. Declining trends in causes such as cardiovascular diseases suggest the success of medical innovations, improved access to preventive care, and enhanced public health initiatives targeting lifestyle-related risk factors. Conversely, upward trends in mental health-related deaths and chronic conditions highlight emerging areas of concern that reflect the need for targeted interventions and resource allocation. These findings underline the dynamic nature of public health, showcasing both areas where progress has been achieved and where significant challenges remain.
 
-These findings have significant implications for public health planning and policy-making. By identifying both declining and emerging causes of death, this research provides actionable insights for targeted interventions and resource allocation. Understanding long-term patterns can help policymakers prioritize investments in prevention and treatment, address health disparities, and anticipate future trends. Ultimately, this study contributes to a broader understanding of the evolving landscape of mortality, aiding efforts to improve health outcomes and save lives in Alberta and beyond.
+The implications of these findings extend beyond academic interest, offering actionable perceptions for public health planning and policy-making. By identifying both declining and emerging causes of death, this research provides significant information to guide targeted interventions, improve healthcare access, and anticipate future trends in mortality. Policymakers can utilize  this understanding to prioritize investments in prevention and treatment, address disparities in healthcare delivery, and develop evidence-based strategies to enhance public health outcomes. Ultimately, this study contributes to a broader understanding of mortality trends, equipping stakeholders with the knowledge to save lives and improve health equity in Alberta and beyond.
 
-The remainder of this paper is structured as follows: @sec-data provides an overview of the data. @sec-model provides the modeling approach. @sec-result present the results and discuss the implications, limitations.  @sec-discussion.
+In the sections that follow, this paper provides a detailed investigation of Alberta's mortality patterns over two decades.  @sec-data outlines the data used, including its sources, key variables, and the rationale for their inclusion. @sec-model describes the modeling approach, detailing the Bayesian regression framework employed to analyze the temporal and categorical dimensions of mortality. @sec-result presents the results, examining trends in total deaths and rankings for leading causes and discussing their implications. @sec-discussion offers a detailed discussion of the findings, addressing the study's limitations, and proposing future research directions. Appendix provides supplementary materials, including diagnostic plots, posterior predictive checks, and additional analyses that further contextualize the findings.
 
 ## Estimand
 
-The paper is intended to estimate the total number of deaths caused by top 30 death causes in Alberta by year. Though analyzing the changing pattern year by year, the model can be used to predict the number of death in the coming years.
-
+This study aims to estimate the total number of deaths caused by the top 30 leading causes of death in Alberta from 2001 to 2022. By analyzing yearly mortality patterns and their shifts over time, the research seeks to understand the temporal dynamics that drive changes in public health outcomes. Key factors considered include the rank and annual mortality of each cause and how these metrics evolve due to societal, medical, and environmental influences. The primary objective is to quantify the relationships between observed trends and underlying factors, offering not only a descriptive account of historical changes but also a predictive framework for forecasting future mortality trends. These predictions can inform public health planning, guiding the allocation of resources and interventions to address persistent challenges and emerging threats. Ultimately, the study provides actionable perceptions into how mortality evolves over time, helping policymakers improve health outcomes and anticipate future needs.
 
 # Data {#sec-data}
 
 ## Overview
 
-The dataset used in this analysis is sourced from Open Data Alberta and contains annual rankings of the 30 most common causes of death in Alberta from 2001 to 2022. Each record includes the total number of deaths attributed to specific causes, ranked by their prevalence for each year. The dataset captures a wide array of mortality causes, ranging from chronic conditions such as cardiovascular diseases and cancer to external factors like accidents and mental health-related deaths. This structured format allows for both categorical and temporal analysis, providing a comprehensive view of how the leading contributors to mortality have evolved over two decades. The dataset’s granularity and consistency make it a valuable resource for examining long-term public health trends and identifying emerging threats in Alberta.
+The dataset used in this analysis is sourced from Open Data Alberta and contains annual rankings of the 30 most common causes of death in Alberta from 2001 to 2022. Each record includes the total number of deaths attributed to specific causes, ranked by their prevalence for each year. The dataset captures a wide array of mortality causes, ranging from chronic conditions such as cardiovascular diseases and cancer to external factors like accidents and mental health-related deaths. This structured format allows for both categorical and temporal analysis, providing a inclusive view of how the leading contributors to mortality have evolved over two decades. The dataset’s granularity and consistency make it a beneficial resource for examining long-term public health trends and identifying emerging threats in Alberta.
 
 THe data analysis and visualization is done in R[@citeR] with the following package: tidyverse[@tidy], janitor[@janitor], arrow[@arrow], rstanarm[@rstanarm], ggplot2[@ggplot2], dplyr[@dplyr], here[@here], knitr[@knitr], and bayesplot[@bayes].
 
@@ -57,7 +57,7 @@ The dataset from Open Data Alberta captures annual rankings and the total number
 
 The process begins with the reporting of individual deaths by healthcare providers and coroners. Each death is attributed to a primary cause, as determined by medical professionals, and recorded in official registries. These individual records are then aggregated annually by Alberta’s public health authorities, ensuring that each cause's total reflects the cumulative deaths within the calendar year. The ranking is determined by sorting these totals in descending order, with the most prevalent causes assigned higher ranks.
 
-While this dataset provides a robust snapshot of mortality trends, it inherently relies on the accuracy of initial death classifications. Misclassifications, incomplete records, or variations in coding practices over time may introduce biases. Nonetheless, the dataset's reliance on systematic reporting and aggregation offers a reliable foundation for analyzing long-term patterns in mortality. By translating complex health phenomena into accessible numerical data, this dataset enables a detailed exploration of Alberta's evolving public health landscape.
+While this dataset provides a robust snapshot of mortality trends, it inherently relies on the accuracy of initial death classifications. Misclassifications, incomplete records, or variations in coding practices over time may introduce biases. Nonetheless, the dataset's reliance on systematic reporting and aggregation offers a reliable foundation for analyzing long-term patterns in mortality. By translating complex health phenomena into accessible numerical data, this dataset enables a detailed investigation of Alberta's evolving public health landscape.
 
 ## Data Exmination {#sec-dataexam}
 
@@ -108,22 +108,24 @@ The dataset used in this study provides annual records of the 30 most common cau
 - Definition: A numeric variable representing the total number of deaths attributed to each cause in a specific year. This variable reflects the absolute mortality burden of each cause annually.
 - Role in Analysis: 
   - Total deaths is the primary dependent variable in the regression model, serving as the outcome measure for understanding trends and patterns.
-  - By analyzing total deaths, we can identify significant increases or decreases for specific causes, providing actionable insights for public health interventions.
+  - By analyzing total deaths, we can identify significant increases or decreases for specific causes, providing actionable perceptions for public health interventions.
 
-Together, these variables form a comprehensive framework for exploring Alberta's mortality trends. By combining temporal, categorical, ordinal, and numeric data, the analysis captures both absolute and relative changes in the leading causes of death, offering a nuanced understanding of public health dynamics over two decades.
+Together, these variables form a inclusive framework for exploring Alberta's mortality trends. By combining temporal, categorical, ordinal, and numeric data, the analysis captures both absolute and relative changes in the leading causes of death, offering a refine understanding of public health dynamics over two decades.
 
 ```{r}
 #| label: Number-of-deaths-in-2001
-#| fig-cap: Number of deaths in 2001
+#| fig-cap: Number of Deaths in 2021 of Diabetes Mellitus, Alzheimer's Disease, Organic Dementia, and Atherosclerosis
 #| echo: false
 #| warning: false
 
+# Select specific causes for visualization
 subset_2001 <- data %>% 
-  filter(`calendar_year` == 2001)  
-ggplot(subset_2001, aes(x = cause, y = `total_deaths`)) +
+  filter(calendar_year == 2001 & 
+         cause %in% c("Diabetes mellitus", "Alzheimer's disease", "Organic dementia", "Atherosclerosis"))
+ggplot(subset_2001, aes(x = cause, y = total_deaths)) +
   geom_bar(stat = "identity", width = 0.6) +  
   theme(axis.text.x = element_text(angle = 30, hjust = 1)) +  
-  labs(title = "Number of deaths in 2001", x = "Cause", y = "Number of Deaths")
+  labs(x = "Cause", y = "Number of Deaths")
 
 ```
 
@@ -131,7 +133,7 @@ Since this study is about the total number of death in each year, another graph 
 
 ```{r}
 #| label: Death-Year
-#| fig-cap: Number of Deaths from 2001 to 2022 In Alberta Canada
+#| fig-cap: Number of Deaths from 2001 to 2022 in Alberta Canada with Highlighted Trends Using Non-Parametric and Linear Regression Models
 #| echo: false
 #| warning: false
 
@@ -150,7 +152,7 @@ ggplot(death_year, aes(x = `calendar_year`, y = Total)) +
 
 ## Justification
 
-The selection of variables in this study is designed to address the research question comprehensively and to provide meaningful insights into the mortality patterns in Alberta from 2001 to 2022. Each variable plays a distinct and complementary role in capturing shifts over time, highlighting public health priorities, and understanding the scale and dynamics of mortality data. The justification for each variable is outlined below:
+The selection of variables in this study is designed to address the research question inclusively and to provide meaningful perceptions into the mortality patterns in Alberta from 2001 to 2022. Each variable plays a distinct and complementary role in capturing shifts over time, highlighting public health priorities, and understanding the scale and dynamics of mortality data. The justification for each variable is outlined below:
 
 ### Temporal Analysis: Capturing Shifts Over Time
 The calendar year variable is a foundational component of the analysis, as it represents the time dimension over which changes in mortality patterns are observed. By modeling year as a numeric variable, the analysis achieves several objectives:
@@ -160,7 +162,7 @@ The calendar year variable is a foundational component of the analysis, as it re
 2. Capturing External Factors: Yearly fluctuations in death counts can also reflect the influence of external events, such as pandemics (e.g., COVID-19), natural disasters, or economic crises.
 3. Forecasting Implications: Temporal analysis provides the basis for predicting future patterns, helping policymakers allocate resources proactively to address potential health challenges.
 
-The inclusion of calendar year ensures that the analysis captures the dynamic nature of public health trends over time, making it a critical component for understanding and addressing shifting mortality patterns.
+The inclusion of calendar year ensures that the analysis captures the dynamic nature of public health trends over time, making it a important component for understanding and addressing shifting mortality patterns.
 
 ### Cause Ranking: Identifying Public Health Priorities
 The cause variable categorically represents the 30 most common causes of death each year, providing a granular view of mortality distribution. This variable is pivotal for several reasons:
@@ -185,12 +187,12 @@ Total deaths serve as the primary dependent variable in the analysis, offering a
 The ranking variable provides an ordinal measure of each cause's relative position within a given year. While total deaths measure absolute impact, ranking adds a complementary perspective by highlighting the relative prominence of each cause. The inclusion of ranking serves the following purposes:
 1. Stability and Volatility: Ranking allows the analysis to identify causes that consistently dominate mortality (e.g., cardiovascular diseases) versus those that experience notable shifts in prominence over time.
    - For example, a condition that rises in rank over several years may signal an emerging public health issue, even if the absolute death count remains moderate.
-2. Historical Context: Rankings provide insights into how public health priorities have evolved over time. For instance, a decrease in the rank of infectious diseases might reflect the success of vaccination programs and improved sanitation.
+2. Historical Context: Rankings provide perceptions into how public health priorities have evolved over time. For instance, a decrease in the rank of infectious diseases might reflect the success of vaccination programs and improved sanitation.
 3. Relative Comparisons: Rankings facilitate cross-cause comparisons, helping policymakers understand which causes are most urgent relative to others in a given year.
 
 By including rankings, the analysis captures not only the absolute burden of mortality but also its relative distribution, offering a holistic view of public health priorities.
 
-In summary, the chosen variables— calendar year, cause, total deaths, and ranking—are strategically selected to capture the full complexity of Alberta’s mortality data. Together, they enable the analysis to address temporal, categorical, absolute, and relative dimensions of mortality trends, ensuring that the findings are both comprehensive and actionable for public health decision-making.
+In summary, the chosen variables— calendar year, cause, total deaths, and ranking—are strategically selected to capture the full complexity of Alberta’s mortality data. Together, they enable the analysis to address temporal, categorical, absolute, and relative dimensions of mortality trends, ensuring that the findings are both detailed and actionable for public health decision-making.
 
 # Model {#sec-model}
 
@@ -227,11 +229,11 @@ $$
 $$
 
 ## Interaction Effects
-The interaction term ($$\text{Calendar Year} \times \text{Cause}$$) is crucial for understanding cause-specific mortality trends. It allows the model to estimate how the temporal trend varies for each cause, rather than assuming a uniform trend across all causes. For example:
+The interaction term ($$\text{Calendar Year} \times \text{Cause}$$) is important for understanding cause-specific mortality trends. It allows the model to estimate how the temporal trend varies for each cause, rather than assuming a uniform trend across all causes. For example:
 - If $$\beta_{\text{Year} \times \text{Cause}}$$ for "Cardiovascular Diseases" is negative, it indicates a declining trend in deaths over time for this cause.
 - Conversely, a positive interaction term for "Mental Health Disorders" suggests an increasing trend in deaths attributed to this cause.
 
-By incorporating interaction effects, the model captures the heterogeneity in temporal trends, providing a nuanced understanding of how public health priorities evolve over time.
+By incorporating interaction effects, the model captures the heterogeneity in temporal trends, providing a refined understanding of how public health priorities evolve over time.
 
 ## Prior Distributions
 
@@ -268,9 +270,9 @@ Bayesian modeling requires the specification of prior distributions for all para
 ## Justification for Prior Choices
 - Weakly Informative Priors: These priors strike a balance between being non-restrictive (allowing the data to drive the estimates) and regularizing extreme values that may arise from noise in the data.
 - Avoiding Overfitting: By constraining the priors, the model prevents overfitting, especially for less common causes of death where data may be sparse.
-- Capturing Meaningful Trends: The priors are designed to reflect reasonable expectations about mortality patterns, ensuring that the results are interpretable and actionable for public health insights.
+- Capturing Meaningful Trends: The priors are designed to reflect reasonable expectations about mortality patterns, ensuring that the results are interpretable and actionable for public health perceptions.
 
-In summary, the Bayesian regression model with weakly informative priors provides a robust framework for analyzing temporal and categorical relationships in mortality data, offering nuanced insights into the evolving patterns of leading causes of death.
+In summary, the Bayesian regression model with weakly informative priors provides a robust framework for analyzing temporal and categorical relationships in mortality data, offering refined perceptions into the evolving patterns of leading causes of death.
 
 ## Comparison with Other Models
 
@@ -305,11 +307,11 @@ To highlight the strengths and limitations of the Bayesian Poisson regression mo
 Machine Learning Models (e.g., Random Forest, Gradient Boosting)
 
 - Key Differences:
-  - Machine learning models focus on predictive accuracy but often lack interpretability, whereas Bayesian models provide interpretable parameter estimates for policy-relevant insights.
-  - Bayesian models emphasize inference and uncertainty quantification, which are critical for understanding trends and making evidence-based public health decisions.
+  - Machine learning models focus on predictive accuracy but often lack interpretability, whereas Bayesian models provide interpretable parameter estimates for policy-relevant perceptions.
+  - Bayesian models emphasize inference and uncertainty quantification, which are important for understanding trends and making evidence-based public health decisions.
 
 Advantages of Bayesian Approach:
-  - Provides interpretable insights into how calendar year and cause of death interact to influence mortality.
+  - Provides interpretable perceptions into how calendar year and cause of death interact to influence mortality.
   - Captures uncertainty in parameter estimates, which machine learning models do not inherently provide.
 
 Disadvantages:
@@ -340,7 +342,7 @@ Time-Series Models (e.g., ARIMA, State-Space Models)
 | Time-Series Models             | Captures temporal dependencies for forecasting | Limited in handling categorical variables   |
 | Bayesian Poisson Regression    | Uncertainty quantification, flexible priors, interpretable | Computationally intensive, requires tuning |
 
-The Bayesian Poisson regression model strikes a balance between interpretability and flexibility, making it well-suited for analyzing mortality data where both temporal and categorical effects are of interest. While alternative models may excel in specific tasks, the Bayesian approach provides a comprehensive framework for inference, uncertainty quantification, and exploring complex relationships.
+The Bayesian Poisson regression model strikes a balance between interpretability and flexibility, making it well-suited for analyzing mortality data where both temporal and categorical effects are of interest. While alternative models may excel in specific tasks, the Bayesian approach provides a detailed framework for inference, uncertainty quantification, and exploring complex relationships.
 
 # Results {#sec-result}
 
@@ -357,7 +359,8 @@ Model diagnostics, such as trace plots and $\hat{R}$-statistics, confirm converg
 ## Findings
 
 Temporal Trends for Leading Causes
-The analysis reveals distinct temporal trends in mortality for the 30 leading causes:
+The analysis 
+distinct temporal trends in mortality for the 30 leading causes:
 - Declining Trends: Cardiovascular diseases show a consistent decline in total deaths over the study period. This trend aligns with advancements in medical treatments and public health initiatives targeting lifestyle risk factors.
 - Rising Trends: Mental health-related deaths, particularly those associated with substance abuse and suicide, demonstrate a significant upward trajectory, reflecting emerging public health challenges in Alberta.
 - Stable Trends: Certain causes, such as cancers, show relatively stable mortality rates, highlighting their persistent burden despite medical advancements.
@@ -412,7 +415,8 @@ ggplot(new_data, aes(x = calendar_year, y = predicted_deaths, color = cause)) +
   theme(legend.position = "bottom")
 ```
 
-This plot reveals declining trends for cardiovascular diseases and rising trends for mental health-related causes, aligning with the statistical findings.
+This plot 
+declining trends for cardiovascular diseases and rising trends for mental health-related causes, aligning with the statistical findings.
 
 Stacked Bar Charts for Changing Ranks Over Time
 Stacked bar charts visualize shifts in cause rankings over time, offering an intuitive view of relative changes:
@@ -442,23 +446,24 @@ ggplot(rank_data, aes(x = calendar_year, y = total_deaths, fill = cause)) +
 
 This chart highlights the relative prominence of causes, such as the persistent dominance of cardiovascular diseases and the rise of respiratory and mental health-related causes.
 
-By combining statistical findings with visualizations, this section provides a comprehensive understanding of Alberta's mortality patterns, emphasizing both absolute trends and relative shifts in public health priorities. These results offer actionable insights for targeted interventions and resource allocation.
+By combining statistical findings with visualizations, this section provides a detailed understanding of Alberta's mortality patterns, emphasizing both absolute trends and relative shifts in public health priorities. These results offer actionable perception for targeted interventions and resource allocation.
 
 # Discussion {#sec-discussion}
 
 ## Understanding Mortality Trends
 
-The analysis of mortality trends from 2001 to 2022 reveals both encouraging advancements and emerging challenges in Alberta’s public health landscape. The consistent decline in deaths attributed to cardiovascular diseases highlights the positive impact of medical advancements, public health initiatives, and widespread awareness of lifestyle risk factors such as smoking, diet, and exercise. These findings align with global trends where treatable and preventable diseases have seen reduced mortality due to improvements in healthcare access and preventive measures.
+The analysis of mortality trends from 2001 to 2022 
+both encouraging advancements and emerging challenges in Alberta’s public health landscape. The consistent decline in deaths attributed to cardiovascular diseases highlights the positive impact of medical advancements, public health initiatives, and widespread awareness of lifestyle risk factors such as smoking, diet, and exercise. These findings align with global trends where treatable and preventable diseases have seen reduced mortality due to improvements in healthcare access and preventive measures.
 
 Conversely, the rise in deaths associated with mental health disorders and substance abuse underscores a growing public health crisis. The increasing trends in these areas suggest gaps in mental health services, the impact of societal stressors, and potentially rising substance dependency issues. Chronic illnesses, including respiratory diseases, also exhibit upward trends, likely reflecting the interplay of environmental factors (e.g., air quality), aging populations, and lifestyle-related risks. Together, these trends emphasize the dual narrative of public health progress in managing treatable diseases and the challenges posed by evolving health risks.
 
 ## Strategic Implications
 
-The findings from this study offer actionable insights for public health planning and resource allocation in Alberta. Identifying the declining trends in cardiovascular diseases provides a model for success, showcasing the value of sustained public health efforts and preventive care. These successes can inform strategies for addressing other health priorities, such as cancers, where mortality rates remain stable but high.
+The findings from this study offer actionable perceptions for public health planning and resource allocation in Alberta. Identifying the declining trends in cardiovascular diseases provides a model for success, showcasing the value of sustained public health efforts and preventive care. These successes can inform strategies for addressing other health priorities, such as cancers, where mortality rates remain stable but high.
 
-Conversely, the rise in mental health-related deaths demands immediate attention. Policymakers and healthcare providers can use these insights to prioritize investments in mental health services, including expanding access to counseling, addiction treatment programs, and early intervention initiatives. Similarly, the trends in chronic illnesses such as respiratory diseases highlight the need for addressing environmental and behavioral risk factors, such as reducing air pollution and promoting healthier lifestyles.
+Conversely, the rise in mental health-related deaths demands immediate attention. Policymakers and healthcare providers can use these perceptions to prioritize investments in mental health services, including expanding access to counseling, addiction treatment programs, and early intervention initiatives. Similarly, the trends in chronic illnesses such as respiratory diseases highlight the need for addressing environmental and behavioral risk factors, such as reducing air pollution and promoting healthier lifestyles.
 
-By aligning resource allocation with data-driven priorities, these insights can guide targeted interventions that address both persistent and emerging public health challenges, ultimately reducing mortality rates and improving overall health outcomes in the region.
+By aligning resource allocation with evidence-based priorities, these perceptions can guide targeted interventions that address both persistent and emerging public health challenges, ultimately reducing mortality rates and improving overall health outcomes in the region.
 
 ## Weaknesses and Future Directions
 
@@ -469,19 +474,19 @@ Potential Biases in Recorded Causes of Death:
    - For example, deaths primarily caused by substance abuse may be recorded under broader categories such as "mental health disorders," leading to an underestimation of their true impact.
 
 Absence of Additional Demographic Covariates:
-   - The analysis does not include important demographic factors such as age, gender, or socioeconomic status. These variables could provide deeper insights into disparities in mortality patterns and help tailor interventions to specific populations.
+   - The analysis does not include important demographic factors such as age, gender, or socioeconomic status. These variables could provide deeper perceptions into disparities in mortality patterns and help tailor interventions to specific populations.
    - For instance, age-standardized mortality rates might reveal whether certain trends are driven by aging populations rather than true increases in disease prevalence.
 
 Future Directions:
 Expanding to Other Regions: Replicating this analysis for other Canadian provinces or regions would provide a comparative perspective on public health outcomes and allow for the identification of region-specific challenges.
-Incorporating Socioeconomic Variables: Including variables such as income, education, and access to healthcare would enable a more nuanced understanding of the social determinants of health.
+Incorporating Socioeconomic Variables: Including variables such as income, education, and access to healthcare would enable a more refined understanding of the social determinants of health.
 Exploring Longitudinal Cohort Data: Linking mortality data with longitudinal health records could help uncover causal relationships between health behaviors, policy interventions, and mortality outcomes.
 
 These directions offer opportunities to build on the findings of this study and further enhance the understanding of mortality trends and their drivers.
 
 ## Broader Implications
 
-This study underscores the importance of leveraging longitudinal mortality data for public health decision-making. By identifying both successes and emerging threats in Alberta’s health landscape, the findings demonstrate the value of data-driven approaches in informing policy and allocating resources effectively. For example, the declining trends in cardiovascular deaths highlight the potential for scaling successful interventions to other health priorities.
+This study underscores the importance of leveraging longitudinal mortality data for public health decision-making. By identifying both successes and emerging threats in Alberta’s health landscape, the findings demonstrate the value of evidence-based approaches in informing policy and allocating resources effectively. For example, the declining trends in cardiovascular deaths highlight the potential for scaling successful interventions to other health priorities.
 
 Furthermore, the methodology employed in this study—Bayesian regression modeling—offers a powerful framework for analyzing complex health data. This approach provides probabilistic estimates and credible intervals, enabling more informed decision-making under uncertainty. The techniques used in this study can be applied to other contexts, such as assessing the impact of specific health policies, evaluating disparities in health outcomes, or predicting future disease burdens.
 
@@ -563,21 +568,22 @@ Rank Change Heatmap: A heatmap showing rank changes for all 30 causes over the t
 
 ## Overview
 
-Surveys provide a valuable tool for exploring factors that administrative mortality records cannot capture, such as self-reported health behaviors, perceptions of risk, and socioeconomic determinants. This survey is designed to investigate contributors to mortality trends in Alberta, including public awareness of leading causes of death, access to healthcare, and demographic disparities. By combining this data with mortality records, we can achieve a richer understanding of trends and priorities in public health.
+This idealized methodology outlines a plan to conduct a survey to supplement the mortality data from Alberta, Canada, for the years 2001–2022, with a budget of $50,000 CAD. The objective of this survey is to capture demographic, behavioral, and socioeconomic factors that influence the mortality rates attributed to the 30 most common causes of death in Alberta. The survey methodology includes plans for a sampling approach, respondent recruitment, data validation, and survey design. The mortality data currently provides annual counts and rankings of causes of death, but it lacks context on individual-level risk factors, healthcare access, and public health interventions. By addressing these gaps, the survey aims to enhance the explanatory power of the existing dataset and provide actionable perceptions for policymakers.
 
 ## Sampling Approach
 
-Sampling Frame: The target population includes Alberta residents aged 18 years and older. The sampling frame will draw from household lists available through provincial databases.
+Target Population: The target population for this survey is residents of Alberta aged 18 and older. This population is chosen to reflect the general public's health and mortality trends. Stratification by age, gender, geographic location, and socioeconomic status ensures that all major demographic groups are adequately represented.
 
-Sampling Technique: A multistage stratified random sampling method will ensure representativeness:
+Sampling Frame: The sampling frame consists of Alberta residents listed in provincial health databases and census data. These sources are trusted and include demographic and geographic information that enables precise sampling.
 
-  - Primary Stratification: Divide the population by geographic region (urban, suburban, rural).
-  
-  - Secondary Stratification: Within each region, stratify by demographic factors such as age and gender.
-  
-  - Random Selection: Use random digit dialing (RDD) and mailed survey invitations to select households and respondents.
-  
-Sample Size: A sample size of 5,000 respondents is targeted, ensuring a 95% confidence level with a ±2% margin of error. Oversampling of underrepresented groups (e.g., rural residents, indigenous populations) will address potential response biases.
+Sampling Method: A stratified random sampling method will be used to ensure representation across various demographic groups:
+
+Primary Stratification: Divide the population into strata based on age (e.g., 18–34, 35–64, 65+), gender, and geographic location (e.g., urban, suburban, rural).
+Secondary Stratification: Further stratify by socioeconomic factors such as income and education level.
+Sampling Within Strata: Within each stratum, a random sample will be drawn to ensure representation and minimize sampling bias.
+Non-Probability Sampling: To reach hard-to-reach groups, such as rural populations or individuals with limited internet access, a respondent-driven sampling approach will also be employed. This method is effective for capturing underrepresented populations by leveraging social networks.
+
+Sample Size: The target sample size is 5,000 respondents, calculated to achieve a 95% confidence level with a ±3% margin of error. Oversampling rural and Indigenous populations will help ensure representation in these smaller but significant groups.
 
 ## Respondent Recruitment
 
@@ -609,26 +615,71 @@ Nonresponse Bias Mitigation:
   
   - Offer alternative formats (e.g., paper, online) to accommodate accessibility needs.
 
+## Survey structure
+
+Survey Sections:
+
+Demographics:
+
+Age, gender, education level, employment status, income, geographic location.
+
+Health Behaviors:
+
+Smoking, alcohol consumption, physical activity, dietary habits, sleep patterns.
+
+Healthcare Access:
+
+Use of preventive care, barriers to healthcare access (e.g., cost, distance, wait times).
+
+Perceptions of Health Risks:
+
+Awareness of leading causes of death, self-assessment of health risks.
+
+Self-Reported Health Conditions:
+
+Chronic illnesses, mental health status, hospitalizations in the past year.
+
+Survey Format:
+
+The survey will consist of a mix of closed-ended, Likert-scale, and open-ended questions to capture quantitative and qualitative data. It is designed to take approximately 20 minutes to complete.
+
+
 ## Data Validation
+
 Validation Techniques:
 
-  - Consistency Checks:
+Consistency Checks:
 
-    - Include repeated questions in different formats to ensure consistent responses.
-    
-    - Use embedded logic to flag unrealistic or contradictory answers (e.g., reporting both “excellent health” and “frequent hospitalization”).
-    
-  - Demographic Comparisons:
-  
-    - Compare respondent demographics with census data to ensure representativeness.
-    
-    - Apply weighting to adjust for over- or under-represented groups.
-    
-  - Pilot Testing:
+Include repeated questions in different formats to ensure response consistency.
 
-    - Conduct a pilot survey with 200 participants to identify issues in question clarity, survey flow, and response patterns.
-    
+Automated Filters:
+
+Use IP tracking and CAPTCHA technology to prevent duplicate or bot responses.
+
+Pilot Testing:
+
+Conduct a pilot survey with 200 respondents to identify potential issues in question clarity and survey flow.
+
+Weighting and Adjustments:
+
+Apply post-stratification weighting to adjust for demographic imbalances in the final sample. This ensures that survey results align with Alberta’s population distribution.
+
+
+## Implementation Plan
+
+Timeline:
+
+Month 1: Design and test the survey instrument; recruit survey staff.
+
+Month 2: Launch recruitment efforts via phone and digital channels.
+
+Months 3–4: Collect responses, monitor sample composition, and adjust recruitment strategies as needed.
+
+Month 5: Validate and clean the data, apply weighting adjustments, and prepare for analysis.
+
+
 ## Idealized Survey Questionnaire
+
 Below is an example of a survey designed based on the structure described:
 
 Demographics:
