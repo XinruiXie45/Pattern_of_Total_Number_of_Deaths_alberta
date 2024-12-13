@@ -6,7 +6,7 @@ author:
 date: 20 November, 2024
 date-format: long
 abstract: "This paper analyzes the changes in mortality patterns associated with the 30 most common causes of death in Alberta from 2001 to 2022, using data from Open Data Alberta. A Bayesian regression model is fit to historical data from 2001 to 2002. The analysis 
-notable trends, including declining deaths from cardiovascular diseases and rising mortality associated with mental health-related conditions and chronic illnesses. These findings highlight shifting public health challenges and successes over the past two decades. By identifying these trends, the study provides important perceptions to guide targeted health interventions and resource allocation, ultimately contributing to improved public health outcomes and planning. "
+notable trends, including declining deaths from cardiovascular diseases and rising mortality associated with mental health-related conditions and chronic illnesses. These findings highlight shifting public health challenges and successes over the past two decades. By identifying these trends, the study provides important perceptions to guide targeted health interventions and resource allocation, ultimately contributing to improved public health outcomes and planning."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -49,11 +49,15 @@ This study aims to estimate the total number of deaths caused by the top 30 lead
 
 The dataset used in this analysis is sourced from Open Data Alberta and contains annual rankings of the 30 most common causes of death in Alberta from 2001 to 2022. Each record includes the total number of deaths attributed to specific causes, ranked by their prevalence for each year. The dataset captures a wide array of mortality causes, ranging from chronic conditions such as cardiovascular diseases and cancer to external factors like accidents and mental health-related deaths. This structured format allows for both categorical and temporal analysis, providing a inclusive view of how the leading contributors to mortality have evolved over two decades. The dataset’s granularity and consistency make it a beneficial resource for examining long-term public health trends and identifying emerging threats in Alberta.
 
-THe data analysis and visualization is done in R[@citeR] with the following package: tidyverse[@tidy], janitor[@janitor], arrow[@arrow], rstanarm[@rstanarm], ggplot2[@ggplot2], dplyr[@dplyr], here[@here], knitr[@knitr], and bayesplot[@bayes].
+The data analysis and visualization is done in R[@citeR] with the following package: Tidyverse[@tidy], Janitor[@janitor], Arrow[@arrow], Rstanarm[@rstanarm], Ggplot2[@ggplot2], Dplyr[@dplyr], Here[@here], Knitr[@knitr], and Bayesplot[@bayes].
 
 ## Measurement
 
-The dataset from Open Data Alberta captures annual rankings and the total number of deaths for the 30 most common causes of death in Alberta between 2001 and 2022. Each entry represents a combination of recorded mortality events attributed to a specific cause and their corresponding rank within that year. These data were compiled using standardized death certificates, which classify causes of death based on the International Classification of Diseases (ICD) codes. This ensures consistency and comparability across years and categories.
+The dataset from Open Data Alberta captures annual rankings and the total number of deaths for the 30 most common causes of death in Alberta between 2001 and 2022. While other datasets, such as national mortality databases or global health repositories like those maintained by the World Health Organization (WHO) or Statistics Canada, provide broader overviews of mortality patterns, they often lack the granularity and regional specificity required for localized analysis. Many similar datasets aggregate data at a national level, which can obscure regional nuances and trends unique to Alberta. 
+
+In contrast, the selected dataset from Open Data Alberta focuses exclusively on Alberta and provides a detailed breakdown of causes ranked annually by the total number of deaths. This regional specificity enables a targeted examination of localized health challenges and emerging patterns, which are essential for developing province-specific public health strategies. Furthermore, this dataset’s use of standardized death certificates and adherence to the International Classification of Diseases (ICD) codes ensures consistency and comparability across years and categories, making it ideal for longitudinal studies.
+
+Each entry represents a combination of recorded mortality events attributed to a specific cause and their corresponding rank within that year. These data were compiled using standardized death certificates, which classify causes of death based on the ICD codes. This ensures consistency and comparability across years and categories.
 
 The process begins with the reporting of individual deaths by healthcare providers and coroners. Each death is attributed to a primary cause, as determined by medical professionals, and recorded in official registries. These individual records are then aggregated annually by Alberta’s public health authorities, ensuring that each cause's total reflects the cumulative deaths within the calendar year. The ranking is determined by sorting these totals in descending order, with the most prevalent causes assigned higher ranks.
 
@@ -155,40 +159,62 @@ ggplot(death_year, aes(x = `calendar_year`, y = Total)) +
 The selection of variables in this study is designed to address the research question inclusively and to provide meaningful perceptions into the mortality patterns in Alberta from 2001 to 2022. Each variable plays a distinct and complementary role in capturing shifts over time, highlighting public health priorities, and understanding the scale and dynamics of mortality data. The justification for each variable is outlined below:
 
 ### Temporal Analysis: Capturing Shifts Over Time
+
 The calendar year variable is a foundational component of the analysis, as it represents the time dimension over which changes in mortality patterns are observed. By modeling year as a numeric variable, the analysis achieves several objectives:
-1. Quantifying Long-Term Trends: Calendar year enables the identification of sustained increases or decreases in deaths for specific causes, reflecting the impact of medical advancements, public health interventions, or broader societal changes.
-   - For example, a declining trend in cardiovascular-related deaths may signal improvements in preventive care and treatments.
-   - Conversely, an upward trend in mental health-related deaths might highlight emerging public health challenges.
-2. Capturing External Factors: Yearly fluctuations in death counts can also reflect the influence of external events, such as pandemics (e.g., COVID-19), natural disasters, or economic crises.
-3. Forecasting Implications: Temporal analysis provides the basis for predicting future patterns, helping policymakers allocate resources proactively to address potential health challenges.
+
+Quantifying Long-Term Trends: Calendar year enables the identification of sustained increases or decreases in deaths for specific causes, reflecting the impact of medical advancements, public health interventions, or broader societal changes.
+
+For example, a declining trend in cardiovascular-related deaths may signal improvements in preventive care and treatments.
+
+Conversely, an upward trend in mental health-related deaths might highlight emerging public health challenges.
+
+Capturing External Factors: Yearly fluctuations in death counts can also reflect the influence of external events, such as pandemics (e.g., COVID-19), natural disasters, or economic crises.
+
+Forecasting Implications: Temporal analysis provides the basis for predicting future patterns, helping policymakers allocate resources proactively to address potential health challenges.
 
 The inclusion of calendar year ensures that the analysis captures the dynamic nature of public health trends over time, making it a important component for understanding and addressing shifting mortality patterns.
 
 ### Cause Ranking: Identifying Public Health Priorities
+
 The cause variable categorically represents the 30 most common causes of death each year, providing a granular view of mortality distribution. This variable is pivotal for several reasons:
-1. Comparative Analysis: By categorizing deaths by cause, the analysis can identify which conditions contribute the most to overall mortality. This differentiation is vital for targeting resources and interventions effectively.
-   - For instance, analyzing trends across categories like chronic diseases, infectious diseases, and external causes (e.g., accidents) helps determine the most pressing areas of concern.
-2. Emerging Threats: The data highlights whether new causes are becoming more prevalent over time, signaling shifts in the burden of disease. For example, an increase in deaths related to opioid overdoses could reflect a growing public health crisis.
-3. Alignment with Policy Priorities: Understanding the relative contribution of different causes ensures that public health strategies align with the actual mortality burden, preventing resource misallocation.
+
+Comparative Analysis: By categorizing deaths by cause, the analysis can identify which conditions contribute the most to overall mortality. This differentiation is vital for targeting resources and interventions effectively.
+
+For instance, analyzing trends across categories like chronic diseases, infectious diseases, and external causes (e.g., accidents) helps determine the most pressing areas of concern.
+
+Emerging Threats: The data highlights whether new causes are becoming more prevalent over time, signaling shifts in the burden of disease. For example, an increase in deaths related to opioid overdoses could reflect a growing public health crisis.
+
+Alignment with Policy Priorities: Understanding the relative contribution of different causes ensures that public health strategies align with the actual mortality burden, preventing resource misallocation.
 
 By incorporating cause-specific data, the analysis is aligned with real-world health challenges and priorities, ensuring that the findings are relevant for policy-making and intervention planning.
 
 ### Death Counts: Measuring Mortality Burden
+
 The total deaths variable quantifies the absolute number of deaths attributed to each cause annually. This numeric measure is central to the analysis for the following reasons:
-1. Assessing the Scale of Impact: Total deaths provide a direct measure of the mortality burden, enabling the identification of the most impactful causes of death. Conditions with high absolute death counts demand immediate attention in public health policy.
-2. Trend Analysis: By examining changes in total deaths over time, the analysis can reveal whether certain causes are becoming more or less significant. For example:
-   - A steady decline in cancer-related deaths might indicate successful prevention and treatment strategies.
-   - An increase in deaths due to respiratory illnesses could highlight environmental or behavioral risk factors.
-3. Monitoring Progress: Total death counts are a key metric for evaluating the effectiveness of public health initiatives, such as vaccination campaigns or chronic disease prevention programs.
+
+Assessing the Scale of Impact: Total deaths provide a direct measure of the mortality burden, enabling the identification of the most impactful causes of death. Conditions with high absolute death counts demand immediate attention in public health policy.
+
+Trend Analysis: By examining changes in total deaths over time, the analysis can reveal whether certain causes are becoming more or less significant. For example:
+
+A steady decline in cancer-related deaths might indicate successful prevention and treatment strategies.
+
+An increase in deaths due to respiratory illnesses could highlight environmental or behavioral risk factors.
+
+Monitoring Progress: Total death counts are a key metric for evaluating the effectiveness of public health initiatives, such as vaccination campaigns or chronic disease prevention programs.
 
 Total deaths serve as the primary dependent variable in the analysis, offering a clear and quantifiable metric for understanding mortality patterns.
 
 ### Ranking: Understanding Relative Importance
+
 The ranking variable provides an ordinal measure of each cause's relative position within a given year. While total deaths measure absolute impact, ranking adds a complementary perspective by highlighting the relative prominence of each cause. The inclusion of ranking serves the following purposes:
-1. Stability and Volatility: Ranking allows the analysis to identify causes that consistently dominate mortality (e.g., cardiovascular diseases) versus those that experience notable shifts in prominence over time.
-   - For example, a condition that rises in rank over several years may signal an emerging public health issue, even if the absolute death count remains moderate.
-2. Historical Context: Rankings provide perceptions into how public health priorities have evolved over time. For instance, a decrease in the rank of infectious diseases might reflect the success of vaccination programs and improved sanitation.
-3. Relative Comparisons: Rankings facilitate cross-cause comparisons, helping policymakers understand which causes are most urgent relative to others in a given year.
+
+Stability and Volatility: Ranking allows the analysis to identify causes that consistently dominate mortality (e.g., cardiovascular diseases) versus those that experience notable shifts in prominence over time.
+
+For example, a condition that rises in rank over several years may signal an emerging public health issue, even if the absolute death count remains moderate.
+
+Historical Context: Rankings provide perceptions into how public health priorities have evolved over time. For instance, a decrease in the rank of infectious diseases might reflect the success of vaccination programs and improved sanitation.
+
+Relative Comparisons: Rankings facilitate cross-cause comparisons, helping policymakers understand which causes are most urgent relative to others in a given year.
 
 By including rankings, the analysis captures not only the absolute burden of mortality but also its relative distribution, offering a holistic view of public health priorities.
 
@@ -214,10 +240,13 @@ $$
 \eta_i = \beta_0 + \beta_{\text{Year}} \cdot \text{Year}_i + \beta_{\text{Cause}} \cdot \text{Cause}_i + \beta_{\text{Year} \times \text{Cause}} \cdot (\text{Year}_i \times \text{Cause}_i),
 $$
 where:
-- $\beta_0$: Intercept term, representing the baseline log mortality rate.
-- $\beta_{\text{Year}}$: Coefficient for calendar year, capturing the overall temporal trend.
-- $\beta_{\text{Cause}}$: Coefficients for each cause, representing their unique baseline mortality levels.
-- $\beta_{\text{Year} \times \text{Cause}}$: Interaction coefficients, capturing deviations in the temporal trend for each cause.
+$\beta_0$: Intercept term, representing the baseline log mortality rate.
+
+$\beta_{\text{Year}}$: Coefficient for calendar year, capturing the overall temporal trend.
+
+$\beta_{\text{Cause}}$: Coefficients for each cause, representing their unique baseline mortality levels.
+
+$\beta_{\text{Year} \times \text{Cause}}$: Interaction coefficients, capturing deviations in the temporal trend for each cause.
 
 The Poisson distribution assumes:
 $$
@@ -229,9 +258,12 @@ $$
 $$
 
 ## Interaction Effects
+
 The interaction term ($$\text{Calendar Year} \times \text{Cause}$$) is important for understanding cause-specific mortality trends. It allows the model to estimate how the temporal trend varies for each cause, rather than assuming a uniform trend across all causes. For example:
-- If $$\beta_{\text{Year} \times \text{Cause}}$$ for "Cardiovascular Diseases" is negative, it indicates a declining trend in deaths over time for this cause.
-- Conversely, a positive interaction term for "Mental Health Disorders" suggests an increasing trend in deaths attributed to this cause.
+
+If $$\beta_{\text{Year} \times \text{Cause}}$$ for "Cardiovascular Diseases" is negative, it indicates a declining trend in deaths over time for this cause.
+
+Conversely, a positive interaction term for "Mental Health Disorders" suggests an increasing trend in deaths attributed to this cause.
 
 By incorporating interaction effects, the model captures the heterogeneity in temporal trends, providing a refined understanding of how public health priorities evolve over time.
 
@@ -239,38 +271,48 @@ By incorporating interaction effects, the model captures the heterogeneity in te
 
 Bayesian modeling requires the specification of prior distributions for all parameters. This study employs weakly informative priors to regularize the estimates, preventing overfitting while allowing the data to drive the results. The priors are chosen as follows:
 
-1. Intercept $\beta_0$:
+Intercept $\beta_0$:
    $$
    \beta_0 \sim \text{Normal}(0, 10).
    $$
-   - This prior assumes that the baseline log mortality rate is centered around 0, with a large variance to allow flexibility.
-   - Justification: Mortality rates across causes and years are expected to vary but remain within a realistic range, making this a reasonable starting point.
+This prior assumes that the baseline log mortality rate is centered around 0, with a large variance to allow flexibility.
 
-2. Coefficients for Calendar Year ($\beta_{\text{Year}}$):
+Justification: Mortality rates across causes and years are expected to vary but remain within a realistic range, making this a reasonable starting point.
+
+Coefficients for Calendar Year ($\beta_{\text{Year}}$):
    $$
    \beta_{\text{Year}} \sim \text{Normal}(0, 10).
    $$
-   - This prior reflects the assumption that the effect of time on mortality trends is relatively modest but may vary across causes.
-   - Justification: While temporal trends are important, they are unlikely to result in extreme year-over-year changes in mortality.
 
-3. Coefficients for Cause ($\beta_{\text{Cause}}$):
+This prior reflects the assumption that the effect of time on mortality trends is relatively modest but may vary across causes.
+
+Justification: While temporal trends are important, they are unlikely to result in extreme year-over-year changes in mortality.
+
+Coefficients for Cause ($\beta_{\text{Cause}}$):
    $$
    \beta_{\text{Cause}} \sim \text{Normal}(0, 10).
    $$
-   - This prior accounts for differences in baseline mortality levels among the 30 causes.
-   - Justification: This reflects prior knowledge that some causes (e.g., cardiovascular disease) contribute significantly more to mortality than others (e.g., infectious diseases).
 
-4.Interaction Coefficients ($\beta_{\text{Year} \times \text{Cause}}$):
+This prior accounts for differences in baseline mortality levels among the 30 causes.
+
+Justification: This reflects prior knowledge that some causes (e.g., cardiovascular disease) contribute significantly more to mortality than others (e.g., infectious diseases).
+
+Interaction Coefficients ($\beta_{\text{Year} \times \text{Cause}}$):
    $$
    \beta_{\text{Year} \times \text{Cause}} \sim \text{Normal}(0, 5).
    $$
-   - The interaction term is given a slightly more constrained prior to regularize estimates and prevent overfitting.
-   - Justification: While cause-specific trends are expected, extreme deviations are unlikely and could lead to overfitting without regularization.
+
+The interaction term is given a slightly more constrained prior to regularize estimates and prevent overfitting.
+
+Justification: While cause-specific trends are expected, extreme deviations are unlikely and could lead to overfitting without regularization.
 
 ## Justification for Prior Choices
-- Weakly Informative Priors: These priors strike a balance between being non-restrictive (allowing the data to drive the estimates) and regularizing extreme values that may arise from noise in the data.
-- Avoiding Overfitting: By constraining the priors, the model prevents overfitting, especially for less common causes of death where data may be sparse.
-- Capturing Meaningful Trends: The priors are designed to reflect reasonable expectations about mortality patterns, ensuring that the results are interpretable and actionable for public health perceptions.
+
+Weakly Informative Priors: These priors strike a balance between being non-restrictive (allowing the data to drive the estimates) and regularizing extreme values that may arise from noise in the data.
+
+Avoiding Overfitting: By constraining the priors, the model prevents overfitting, especially for less common causes of death where data may be sparse.
+
+Capturing Meaningful Trends: The priors are designed to reflect reasonable expectations about mortality patterns, ensuring that the results are interpretable and actionable for public health perceptions.
 
 In summary, the Bayesian regression model with weakly informative priors provides a robust framework for analyzing temporal and categorical relationships in mortality data, offering refined perceptions into the evolving patterns of leading causes of death.
 
@@ -278,59 +320,80 @@ In summary, the Bayesian regression model with weakly informative priors provide
 
 To highlight the strengths and limitations of the Bayesian Poisson regression model used in this study, it is important to compare it with alternative modeling approaches that could have been employed. The following provides a detailed comparison with commonly used models for mortality data, including their advantages and disadvantages relative to the Bayesian framework.
 
-1. Frequentist Poisson Regression
+Frequentist Poisson Regression
 
-- Key Differences:
-  - Frequentist Poisson regression relies on point estimates for parameters, whereas the Bayesian approach provides a full posterior distribution, allowing for uncertainty quantification.
-  - Bayesian models incorporate prior information, which is particularly useful when data is sparse or for rare causes of death.
+Key Differences:
 
-- Advantages of Bayesian Approach:
-  - Credible intervals from Bayesian models are more intuitive than confidence intervals, as they represent the probability of the parameter lying within the interval.
-  - Incorporating weakly informative priors helps stabilize parameter estimates, especially for less frequent causes of death.
+Frequentist Poisson regression relies on point estimates for parameters, whereas the Bayesian approach provides a full posterior distribution, allowing for uncertainty quantification.
 
-- Disadvantages:
-  - Bayesian models are computationally intensive compared to their frequentist counterparts, particularly for large datasets.
+Bayesian models incorporate prior information, which is particularly useful when data is sparse or for rare causes of death.
 
-2. Generalized Linear Models (GLMs) with Overdispersion
+Advantages of Bayesian Approach:
 
-- Key Differences:
-  - GLMs with negative binomial distribution handle overdispersion in count data better than standard Poisson models. However, they do not naturally account for hierarchical or multi-level structures.
-  - The Bayesian Poisson regression framework can be extended to hierarchical models, allowing for borrowing strength across related groups (e.g., causes of death).
+Credible intervals from Bayesian models are more intuitive than confidence intervals, as they represent the probability of the parameter lying within the interval.
 
-- Advantages of Bayesian Approach:
-  - Flexibility in modeling complex structures, such as interactions and hierarchical dependencies, is a key strength of the Bayesian framework.
-  - Posterior predictive checks provide a robust way to evaluate model fit, which is often less emphasized in standard GLMs.
+Incorporating weakly informative priors helps stabilize parameter estimates, especially for less frequent causes of death.
 
-- Disadvantages:
-  - Negative binomial models may be computationally simpler when overdispersion is a primary concern, without the need for extensive posterior sampling.
+Disadvantages:
+
+Bayesian models are computationally intensive compared to their frequentist counterparts, particularly for large datasets.
+
+Generalized Linear Models (GLMs) with Overdispersion
+
+Key Differences:
+
+GLMs with negative binomial distribution handle overdispersion in count data better than standard Poisson models. However, they do not naturally account for hierarchical or multi-level structures.
+
+The Bayesian Poisson regression framework can be extended to hierarchical models, allowing for borrowing strength across related groups (e.g., causes of death).
+
+Advantages of Bayesian Approach:
+
+Flexibility in modeling complex structures, such as interactions and hierarchical dependencies, is a key strength of the Bayesian framework.
+
+Posterior predictive checks provide a robust way to evaluate model fit, which is often less emphasized in standard GLMs.
+
+Disadvantages:
+
+Negative binomial models may be computationally simpler when overdispersion is a primary concern, without the need for extensive posterior sampling.
 
 Machine Learning Models (e.g., Random Forest, Gradient Boosting)
 
-- Key Differences:
-  - Machine learning models focus on predictive accuracy but often lack interpretability, whereas Bayesian models provide interpretable parameter estimates for policy-relevant perceptions.
-  - Bayesian models emphasize inference and uncertainty quantification, which are important for understanding trends and making evidence-based public health decisions.
+Key Differences:
+
+Machine learning models focus on predictive accuracy but often lack interpretability, whereas Bayesian models provide interpretable parameter estimates for policy-relevant perceptions.
+
+Bayesian models emphasize inference and uncertainty quantification, which are important for understanding trends and making evidence-based public health decisions.
 
 Advantages of Bayesian Approach:
-  - Provides interpretable perceptions into how calendar year and cause of death interact to influence mortality.
-  - Captures uncertainty in parameter estimates, which machine learning models do not inherently provide.
+
+Provides interpretable perceptions into how calendar year and cause of death interact to influence mortality.
+
+Captures uncertainty in parameter estimates, which machine learning models do not inherently provide.
 
 Disadvantages:
-  - Machine learning models often excel at predictive tasks, particularly when nonlinear relationships or complex interactions are present.
-  - Bayesian models may require more manual tuning (e.g., priors and hyperparameters) compared to automated machine learning pipelines.
+
+Machine learning models often excel at predictive tasks, particularly when nonlinear relationships or complex interactions are present.
+
+Bayesian models may require more manual tuning (e.g., priors and hyperparameters) compared to automated machine learning pipelines.
 
 Time-Series Models (e.g., ARIMA, State-Space Models)
 
-- Key Differences:
-  - Time-series models focus on temporal dependencies and are well-suited for forecasting purposes. In contrast, Bayesian Poisson regression models explore both temporal and categorical effects (e.g., interaction between calendar year and cause).
-  - Bayesian regression incorporates the hierarchical structure of causes, which is typically not addressed in standard time-series models.
+Key Differences:
 
-- Advantages of Bayesian Approach:
-  - Can simultaneously analyze categorical variables (e.g., cause of death) alongside temporal trends.
-  - Flexible inclusion of interaction terms allows for cause-specific temporal patterns to be captured.
+Time-series models focus on temporal dependencies and are well-suited for forecasting purposes. In contrast, Bayesian Poisson regression models explore both temporal and categorical effects (e.g., interaction between calendar year and cause).
 
-- Disadvantages:
-  - Time-series models might outperform Bayesian regression in pure forecasting tasks where temporal dependency is the sole focus.
-  - Bayesian regression does not inherently model autocorrelation or seasonality, which time-series models handle effectively.
+Bayesian regression incorporates the hierarchical structure of causes, which is typically not addressed in standard time-series models.
+
+Advantages of Bayesian Approach:
+
+Can simultaneously analyze categorical variables (e.g., cause of death) alongside temporal trends.
+Flexible inclusion of interaction terms allows for cause-specific temporal patterns to be captured.
+
+Disadvantages:
+
+Time-series models might outperform Bayesian regression in pure forecasting tasks where temporal dependency is the sole focus.
+
+Bayesian regression does not inherently model autocorrelation or seasonality, which time-series models handle effectively.
 
 
 ## Summary of Comparisons
