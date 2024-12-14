@@ -445,10 +445,10 @@ Below is an example summary of coefficients for selected causes and interaction 
 # Create the data
 data <- data.frame(
   Cause = c("Cardiovascular Diseases", "Mental Health Disorders", "Respiratory Diseases"),
-  `Year Effect (Mean)` = c(-0.015, 0.022, 0.008),
-  `95% Credible Interval` = c("(-0.025, -0.005)", "( 0.012, 0.032)", "(-0.002, 0.018)"),
-  `Interaction Effect (Mean)` = c(-0.010, 0.015, 0.005),
-  `95% Credible Interval.1` = c("(-0.020, -0.001)", "( 0.005, 0.025)", "(-0.005, 0.015)")
+  `Year Effect` = c(-0.015, 0.022, 0.008),
+  `95% CI` = c("(-0.025, -0.005)", "( 0.012, 0.032)", "(-0.002, 0.018)"),
+  `Interaction Effect` = c(-0.010, 0.015, 0.005),
+  `95% CI.1` = c("(-0.020, -0.001)", "( 0.005, 0.025)", "(-0.005, 0.015)")
 )
 
 # Create the table
