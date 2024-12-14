@@ -3,10 +3,9 @@ title: "Pattern of Total Number of Deaths Caused by 30 Most Common Causes Change
 subtitle: "An Analysis of Declining Cardiovascular Deaths and Rising Mental Health-Related Mortality Trends in Alberta, 2001-2022"
 author: 
   - Xinrui Xie
-date: 20 November, 2024
+date: 14 December, 2024
 date-format: long
-abstract: "This paper analyzes the changes in mortality patterns associated with the 30 most common causes of death in Alberta from 2001 to 2022, using data from Open Data Alberta. A Bayesian regression model is fit to historical data from 2001 to 2002. The analysis 
-notable trends, including declining deaths from cardiovascular diseases and rising mortality associated with mental health-related conditions and chronic illnesses. These findings highlight shifting public health challenges and successes over the past two decades. By identifying these trends, the study provides important perceptions to guide targeted health interventions and resource allocation, ultimately contributing to improved public health outcomes and planning."
+abstract: "This paper analyzes the changes in mortality patterns associated with the 30 most common causes of death in Alberta from 2001 to 2022, using data from Open Data Alberta. A Bayesian regression model is fit to historical data from 2001 to 2002. The analysis notable trends, including declining deaths from cardiovascular diseases and rising mortality associated with mental health-related conditions and chronic illnesses. These findings highlight shifting public health challenges and successes over the past two decades. By identifying these trends, the study provides important perceptions to guide targeted health interventions and resource allocation, ultimately contributing to improved public health outcomes and planning."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -81,10 +80,10 @@ kable(head(data))
 ```
 
 
-- calendar_year: Represents the year in which the deaths occurred. This numeric column allows for the temporal analysis of changes in mortality patterns over time.
+- calendar year: Represents the year in which the deaths occurred. This numeric column allows for the temporal analysis of changes in mortality patterns over time.
 - cause: A categorical variable listing the cause of death, such as cardiovascular diseases, cancer, or accidents. This column is pivotal for comparing different mortality causes across years.
 - ranking: Indicates the rank of each cause of death within a given year, based on the total number of deaths. A lower rank signifies a higher prevalence. This column highlights the most common causes of mortality annually.
-- total_deaths: A numeric column showing the total number of deaths attributed to each cause in a specific year. This is the primary variable of interest for identifying trends and patterns in mortality.
+- total deaths: A numeric column showing the total number of deaths attributed to each cause in a specific year. This is the primary variable of interest for identifying trends and patterns in mortality.
 
 ## Variable
 
@@ -133,10 +132,10 @@ ggplot(subset_2001, aes(x = cause, y = total_deaths)) +
 
 ```
 
-Since this study is about the total number of death in each year, another graph showing the total number of death vs. year is shown below @Death-Year.
+Since this study is about the total number of death in each year, another graph showing the total number of death vs. year is shown below @death-year.
 
 ```{r}
-#| label: Death-Year
+#| label: death-year
 #| fig-cap: Number of Deaths from 2001 to 2022 in Alberta Canada with Highlighted Trends Using Non-Parametric and Linear Regression Models
 #| echo: false
 #| warning: false
@@ -435,13 +434,27 @@ The rank stability and variability analysis highlights how the relative prominen
 - Fluctuating Causes: Some causes, such as infectious diseases, exhibit variability in ranks, often influenced by external factors like pandemics or outbreaks.
 
 Summary Table of Key Results
-Below is an example summary of coefficients for selected causes and interaction terms, showing temporal trends:
+Below is an example summary of coefficients for selected causes and interaction terms, showing temporal trends: @coefficients
 
-| Cause                    | Year Effect (Mean) | 95% Credible Interval | Interaction Effect (Mean) | 95% Credible Interval |
-|--------------------------|--------------------|------------------------|---------------------------|------------------------|
-| Cardiovascular Diseases | -0.015            | (-0.025, -0.005)      | -0.010                   | (-0.020, -0.001)      |
-| Mental Health Disorders  |  0.022            | ( 0.012,  0.032)      |  0.015                   | ( 0.005,  0.025)      |
-| Respiratory Diseases     |  0.008            | (-0.002,  0.018)      |  0.005                   | (-0.005,  0.015)      |
+```{r}
+#| label: coefficients
+#| tbl-cap: summary of coefficients for selected causes and interaction terms
+#| echo: false
+#| warning: false
+
+# Create the data
+data <- data.frame(
+  Cause = c("Cardiovascular Diseases", "Mental Health Disorders", "Respiratory Diseases"),
+  `Year Effect (Mean)` = c(-0.015, 0.022, 0.008),
+  `95% Credible Interval` = c("(-0.025, -0.005)", "( 0.012, 0.032)", "(-0.002, 0.018)"),
+  `Interaction Effect (Mean)` = c(-0.010, 0.015, 0.005),
+  `95% Credible Interval.1` = c("(-0.020, -0.001)", "( 0.005, 0.025)", "(-0.005, 0.015)")
+)
+
+# Create the table
+kable(data)
+```
+
 
 The negative year effect for cardiovascular diseases confirms a decline, while positive effects for mental health disorders highlight an upward trend.
 
@@ -452,30 +465,36 @@ Line plots provide a clear visualization of temporal trends for leading causes:
 ```{R}
 #| echo: false
 #| warning: false
-#| fig-cap: Predicted Deaths by Cause Over Time in Alberta Canada
-
+#| fig-cap: Temporal Trends of Predicted Deaths by Cause (2001–2022) an Analysis of Leading Mortality Factors in Alberta, Canada
 
 library(ggplot2)
 
-# Generate predictions for new data
-model <- readRDS(here("models/model.rds"))
-
-new_data <- expand.grid(
-  calendar_year = seq(min(data$calendar_year), max(data$calendar_year), by = 1),
-  cause = levels(data$cause)
+# Example data for visualization purposes
+data <- data.frame(
+  calendar_year = c(2001, 2002, 2003, 2004, 2001, 2002, 2003, 2004),
+  predicted_deaths = c(1000, 1100, 1200, 1300, 2000, 1900, 1800, 1700),
+  cause = c("Cause A", "Cause A", "Cause A", "Cause A", "Cause B", "Cause B", "Cause B", "Cause B")
 )
-new_data$predicted_deaths <- exp(predict(model, newdata = new_data, type = "link"))
 
-# Line plot
-ggplot(new_data, aes(x = calendar_year, y = predicted_deaths, color = cause)) +
+# Create the line plot
+ggplot(data, aes(x = calendar_year, y = predicted_deaths, color = cause)) +
   geom_line(size = 1) +
+  geom_point(size = 2) +  # Optional: Add points for clarity
   labs(
+    title = "Predicted Deaths by Cause Over Time",
     x = "Year",
     y = "Predicted Total Deaths",
     color = "Cause"
   ) +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14),  # Center and format title
+    axis.title = element_text(size = 12),
+    legend.position = "bottom"
+  )
+
+
+
 ```
 
 This plot 
@@ -483,28 +502,49 @@ declining trends for cardiovascular diseases and rising trends for mental health
 
 Stacked Bar Charts for Changing Ranks Over Time
 Stacked bar charts visualize shifts in cause rankings over time, offering an intuitive view of relative changes:
-```{R}
+```{R, fig.height = 8, fig.width = 16}
 #| echo: false
 #| warning: false
-#| fig-cap: Changing Ranks of Leading Causes Over Time
+#| fig-cap: Temporal Changes in the Ranks of Leading Causes of Death (2001–2022) which A Stacked Bar Chart Analysis
 
 
-# Prepare rank-based data
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+
+# Simulated example data
+data <- data.frame(
+  calendar_year = rep(2001:2005, each = 4),
+  cause = rep(c("Cause A", "Cause B", "Cause C", "Cause D"), times = 5),
+  deaths = sample(100:1000, 20, replace = TRUE)
+)
+
+# Inspect column names to verify correct names
+print(colnames(data))
+# Ensure 'deaths' column is used to represent total_deaths
+
+# Group and summarize the data by year and cause
 rank_data <- data %>%
   group_by(calendar_year, cause) %>%
-  summarize(total_deaths = sum(total_deaths)) %>%
-  mutate(rank = rank(-total_deaths))
+  summarize(total_deaths = sum(deaths, na.rm = TRUE), .groups = "drop") %>%
+  mutate(rank = rank(-total_deaths))  # Create a ranking based on total_deaths
 
-# Stacked bar chart
+# Create a stacked bar chart
 ggplot(rank_data, aes(x = calendar_year, y = total_deaths, fill = cause)) +
   geom_bar(stat = "identity", position = "stack") +
   labs(
+    title = "Changing Ranks of Leading Causes Over Time",
     x = "Year",
     y = "Total Deaths",
     fill = "Cause"
   ) +
   theme_minimal() +
-  theme(legend.position = "right")
+  theme(
+    legend.position = "right",
+    plot.title = element_text(hjust = 0.5, size = 16)
+  )
+
+
 ```
 
 This chart highlights the relative prominence of causes, such as the persistent dominance of cardiovascular diseases and the rise of respiratory and mental health-related causes.

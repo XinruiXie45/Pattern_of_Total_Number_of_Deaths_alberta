@@ -1,7 +1,7 @@
 #### Preamble ####
 # Purpose: Construct model
 # Author: Xinrui Xie
-# Date: 20 November 2024
+# Date: 14 December 2024
 # Contact: xinrui.xie@mail.utoronto.ca
 # Pre-requisites: The `rstanarm`  package must be installed
 
