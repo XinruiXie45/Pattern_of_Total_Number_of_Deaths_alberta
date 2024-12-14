@@ -519,10 +519,6 @@ data <- data.frame(
   deaths = sample(100:1000, 20, replace = TRUE)
 )
 
-# Inspect column names to verify correct names
-print(colnames(data))
-# Ensure 'deaths' column is used to represent total_deaths
-
 # Group and summarize the data by year and cause
 rank_data <- data %>%
   group_by(calendar_year, cause) %>%
